@@ -1,4 +1,4 @@
-import { GetServerSideProps } from 'next';
+import { GetStaticProps } from 'next';
 import Head from 'next/head';
 import { SubscribeButton } from '../components/SubscribeButton';
 import { stripe } from '../services/stripe';
@@ -35,21 +35,25 @@ export default function Home({product}: HomeProps) {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
+// usar Server Side para buscar dados no servidor de forma dinamica otimizada para indexação por SEO
+// usar Static Props apenas quando a mesma informação pode ser exibida para todos os usuarios
+export const getStaticProps: GetStaticProps = async () => {
   const price = await stripe.prices.retrieve('price_1JjqiHGH8oo78tpPVdIhm0Mn', { 
     expand: ['product']
   });
+
   const product = {
     priceId: price.id,
     amount: new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'USD',
     }).format(price.unit_amount / 100), // sempre esta em centavos
-
   }
+
   return {
     props: {
       product
-    }
+    },
+    revalidate: 60*60*24, // quando tempo em segundos a pagina deve ser recarregada: 24 hours
   }
 }
