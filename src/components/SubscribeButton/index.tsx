@@ -7,10 +7,15 @@ interface SubscribeButtonProps {
     priceId: string;
 }
 
-export function SubscribeButton({priceId}: SubscribeButtonProps){
-    async function handleSubscribe(){
-        const [session] = useSession();
+// usar chaves secretas em:
+// getServerSideProps (SSR)
+// getStaticProps (SSG)
+// API routes
 
+export function SubscribeButton({priceId}: SubscribeButtonProps){
+    const [session] = useSession();
+
+    async function handleSubscribe(){
         if(!session){
             signIn('github');
             return;

@@ -9,7 +9,7 @@ type User = {
         id: string
     }
     data: {
-        stripe_customer_id: string
+        stripeCustomerId: string
     }
 }
 
@@ -26,12 +26,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             )
         );
 
-        let customerId = user.data.stripe_customer_id;
+        let customerId = user.data.stripeCustomerId;
 
         if(!customerId) {
             const stripeCustomer = await stripe.customers.create({
                 email: session.user.email,
-                source: req.body.token.id
             });
             
             await fauna.query(
