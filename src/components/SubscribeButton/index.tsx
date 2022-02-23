@@ -4,16 +4,12 @@ import { api } from '../../services/api';
 import { getStripeJs } from '../../services/stripe-js';
 import styles from './styles.module.scss';
 
-interface SubscribeButtonProps {
-    priceId: string;
-}
-
 // usar chaves secretas em:
 // getServerSideProps (SSR)
 // getStaticProps (SSG)
 // API routes
 
-export function SubscribeButton({priceId}: SubscribeButtonProps){
+export function SubscribeButton(){
     const [session] = useSession();
     const router = useRouter()
 
@@ -22,9 +18,9 @@ export function SubscribeButton({priceId}: SubscribeButtonProps){
             signIn('github');
             return;
         }
-        console.log(session);
+
         if(session.activeSubscription){
-            router.push('./posts');
+            router.push('/posts');
             return
         }
 
