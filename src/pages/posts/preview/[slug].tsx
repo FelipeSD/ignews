@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { RichText } from "prismic-reactjs"
 import { useEffect } from "react"
 import { getPrismicClient } from "../../../services/prismic"
-import styles from './post.module.scss'
+import styles from '../post.module.scss'
 
 interface PostPreviewProps {
     post: {

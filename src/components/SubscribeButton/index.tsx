@@ -15,12 +15,12 @@ export function SubscribeButton(){
 
     async function handleSubscribe(){
         if(!session){
-            signIn('github');
+            await signIn('github');
             return;
         }
 
         if(session.activeSubscription){
-            router.push('/posts');
+            await router.push('/posts');
             return
         }
 

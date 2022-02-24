@@ -22,15 +22,13 @@ export const config = {
     }
 }
 
-const relevantEvents = new Set([ // nada duplicado
+const relevantEvents = new Set([
     'checkout.session.completed',
     'customer.subscription.updated',
     'customer.subscription.deleted',
 ])
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-    console.log("evento recebido")
-
     if(req.method !== 'POST'){
         res.setHeader('Allow', 'POST');
         res.status(405).end(`Method ${req.method} Not Allowed`);
@@ -56,6 +54,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                 case 'customer.subscription.updated':
                 case 'customer.subscription.deleted':
                     const subscription = event.data.object as Stripe.Subscription;
+
                     await saveSubscription(
                         subscription.id,
                         subscription.customer.toString(),
@@ -64,21 +63,24 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                     break;
                 case 'checkout.session.completed':
                     const checkoutSession = event.data.object as Stripe.Checkout.Session;
+
                     await saveSubscription(
-                        checkoutSession.subscription.toString(), 
-                        checkoutSession.customer.toString()
+                        checkoutSession.subscription.toString(),
+                        checkoutSession.customer.toString(),
+                        true
                     );
                     break;
                 default:
                     throw new Error(`Evento não implementado: ${type}`)
             }
+
+            res.json({ok: true})
         } catch (err) {
             res.json({error: `Webhook Error: ${err.message}`});
         }
+
     }else{
         res.setHeader('Allow', ['POST']);
         res.status(405).end(`Method ${req.method} Not Allowed`);
     }
-    
-    res.json({ok: true})
 }

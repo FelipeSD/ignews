@@ -4,7 +4,7 @@ import { fauna } from "../../../services/fauna";
 import { stripe } from '../../../services/stripe';
 
 export async function saveSubscription(subscriptionId: string, customerId: string, createAction = false) {
-    // Buscar o usuario no banco do Fauna com o ID
+    // Buscar o usuário no banco do Fauna com o ID
     const userRef = await fauna.query(
         q.Select(
             'ref',
@@ -16,6 +16,7 @@ export async function saveSubscription(subscriptionId: string, customerId: strin
             )
         )
     )
+
     // salvar os dados da subscription no Fauna
     const subscription = await stripe.subscriptions.retrieve(subscriptionId)
 
@@ -25,7 +26,7 @@ export async function saveSubscription(subscriptionId: string, customerId: strin
         status: subscription.status,
         price_id: subscription.items.data[0].price.id,
     }
-    
+
     if(createAction) {
         await fauna.query(
             q.Create(
@@ -40,7 +41,7 @@ export async function saveSubscription(subscriptionId: string, customerId: strin
                     "ref",
                     q.Get(
                         q.Match(
-                            q.Index("sbscription_by_id"), 
+                            q.Index("subscription_by_id"),
                             subscriptionId
                         )
                     )
