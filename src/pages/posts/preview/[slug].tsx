@@ -1,11 +1,11 @@
-import { GetStaticPaths, GetStaticProps } from "next"
-import { useSession } from "next-auth/client"
-import { useRouter } from "next/dist/client/router"
-import Head  from "next/head"
+import {GetStaticPaths, GetStaticProps} from "next"
+import {useSession} from "next-auth/client"
+import {useRouter} from "next/dist/client/router"
+import Head from "next/head"
 import Link from 'next/link'
-import { RichText } from "prismic-reactjs"
-import { useEffect } from "react"
-import { getPrismicClient } from "../../../services/prismic"
+import {RichText} from "prismic-reactjs"
+import {useEffect} from "react"
+import {getPrismicClient} from "../../../services/prismic"
 import styles from '../post.module.scss'
 
 interface PostPreviewProps {
@@ -18,12 +18,12 @@ interface PostPreviewProps {
 }
 
 
-export default function PostPreview({post}: PostPreviewProps){
+export default function PostPreview({post}: PostPreviewProps) {
     const [session] = useSession();
     const router = useRouter();
 
     useEffect(() => {
-        if(session?.activeSubscription){
+        if (session?.activeSubscription) {
             router.push(`/posts/${post.slug}`);
         }
     }, [session]);
@@ -37,9 +37,9 @@ export default function PostPreview({post}: PostPreviewProps){
                 <article className={styles.post}>
                     <h1>{post.title}</h1>
                     <time>{post.updatedAt}</time>
-                    <div 
+                    <div
                         className={`${styles.postContent} ${styles.previewContent}`}
-                        dangerouslySetInnerHTML={{__html: post.content}} 
+                        dangerouslySetInnerHTML={{__html: post.content}}
                     />
 
                     <div className={styles.continueReading}>

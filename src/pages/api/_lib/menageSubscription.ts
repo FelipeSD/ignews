@@ -1,7 +1,7 @@
 // pastas com _ não conta como rotas da application
 import {query as q} from 'faunadb';
-import { fauna } from "../../../services/fauna";
-import { stripe } from '../../../services/stripe';
+import {fauna} from "../../../services/fauna";
+import {stripe} from '../../../services/stripe';
 
 export async function saveSubscription(subscriptionId: string, customerId: string, createAction = false) {
     // Buscar o usuário no banco do Fauna com o ID
@@ -10,7 +10,7 @@ export async function saveSubscription(subscriptionId: string, customerId: strin
             'ref',
             q.Get(
                 q.Match(
-                    q.Index("user_by_stripe_customer_id"), 
+                    q.Index("user_by_stripe_customer_id"),
                     customerId
                 )
             )
@@ -27,14 +27,14 @@ export async function saveSubscription(subscriptionId: string, customerId: strin
         price_id: subscription.items.data[0].price.id,
     }
 
-    if(createAction) {
+    if (createAction) {
         await fauna.query(
             q.Create(
                 q.Collection("subscriptions"),
-                { data: subscriptionData }
+                {data: subscriptionData}
             )
         )
-    }else{
+    } else {
         await fauna.query(
             q.Replace(
                 q.Select(

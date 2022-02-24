@@ -1,10 +1,10 @@
-import { NextApiRequest, NextApiResponse } from "next";
-import { Readable } from 'stream';
+import {NextApiRequest, NextApiResponse} from "next";
+import {Readable} from 'stream';
 import Stripe from "stripe";
-import { stripe } from "../../services/stripe";
-import { saveSubscription } from "./_lib/menageSubscription";
+import {stripe} from "../../services/stripe";
+import {saveSubscription} from "./_lib/menageSubscription";
 
-async function buffer(readable: Readable){
+async function buffer(readable: Readable) {
     const chunks = [];
 
     for await (const chunk of readable) {
@@ -29,7 +29,7 @@ const relevantEvents = new Set([
 ])
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-    if(req.method !== 'POST'){
+    if (req.method !== 'POST') {
         res.setHeader('Allow', 'POST');
         res.status(405).end(`Method ${req.method} Not Allowed`);
         return
@@ -48,9 +48,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
     const type = event.type;
 
-    if(relevantEvents.has(type)){
+    if (relevantEvents.has(type)) {
         try {
-            switch(type){
+            switch (type) {
                 case 'customer.subscription.updated':
                 case 'customer.subscription.deleted':
                     const subscription = event.data.object as Stripe.Subscription;
@@ -79,7 +79,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             res.json({error: `Webhook Error: ${err.message}`});
         }
 
-    }else{
+    } else {
         res.setHeader('Allow', ['POST']);
         res.status(405).end(`Method ${req.method} Not Allowed`);
     }
