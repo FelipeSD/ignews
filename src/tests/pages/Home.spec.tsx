@@ -1,6 +1,6 @@
 import {render, screen} from '@testing-library/react';
 import Home, {getStaticProps} from "../../pages";
-import { stripe } from "../../services/stripe";
+import {stripe} from "../../services/stripe";
 
 jest.mock('next/router')
 jest.mock('next-auth/client', () => {
@@ -10,9 +10,9 @@ jest.mock('next-auth/client', () => {
 })
 jest.mock('../../services/stripe');
 
-describe('Home', () => {
+describe('Home page', () => {
   it('renders correctly', () => {
-    render(<Home product={{priceId: 'fake-priceId', amount: 'R$10,00'}} />);
+    render(<Home product={{priceId: 'fake-priceId', amount: 'R$10,00'}}/>);
     expect(screen.getByText(/R\$10,00/i)).toBeInTheDocument();
   });
 
@@ -28,14 +28,14 @@ describe('Home', () => {
     const response = await getStaticProps({});
 
     expect(response).toEqual(
-        expect.objectContaining({
-          props: {
-            product: {
-              priceId: 'fake-priceId',
-              amount: '$10.00'
-            }
+      expect.objectContaining({
+        props: {
+          product: {
+            priceId: 'fake-priceId',
+            amount: '$10.00'
           }
-        })
+        }
+      })
     )
   })
 });
