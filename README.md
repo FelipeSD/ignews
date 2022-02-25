@@ -1,11 +1,3 @@
-# Ignews
-
-![GitHub repo size](https://img.shields.io/github/repo-size/fezoide/ignews)
-![GitHub language count](https://img.shields.io/github/languages/count/fezoide/ignews)
-![GitHub forks](https://img.shields.io/github/forks/fezoide/ignews)
-![Bitbucket open issues](https://img.shields.io/bitbucket/issues/fezoide/ignews)
-![Bitbucket open pull requests](https://img.shields.io/bitbucket/pr-raw/fezoide/ignews)
-
 <img src="https://user-images.githubusercontent.com/18513213/155630154-2e7e79c0-6d06-43fc-9014-4e8f58fc243d.png" alt="home page" />
 
 > Ignews é um projeto final desenvolvido no bootcamp Ignite da Rocketseat. Possui comunicação com Github (autenticação), Stripe (assinatura), Prismic CMS (repositório 
