@@ -68,6 +68,14 @@ yarn dev
   </tr>
 </table>
 
+### Stripe webhooks
+
+Usando a Stripe CLI para simular eventos da Stripe no seu ambiente local:
+
+```
+stripe listen --forward-to localhost:3000/api/webhook
+```
+
 ## ☕ Usando o Ignews
 
 Para usar o Ignews, siga estas etapas:
