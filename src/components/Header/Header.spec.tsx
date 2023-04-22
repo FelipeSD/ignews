@@ -1,32 +1,30 @@
-import {render} from '@testing-library/react'
-import {Header} from "./index";
+import { render } from "@testing-library/react";
+import { Header } from "./index";
 
-jest.mock('next/dist/client/router', () => {
-    // mock library
-    return {
-        useRouter: () => {
-            return {
-                asPath: '/'
-            }
-        }
-    }
+jest.mock("next/router", () => {
+  // mock library
+  return {
+    useRouter: () => {
+      return {
+        asPath: "/",
+      };
+    },
+  };
 });
 
-jest.mock('next-auth/client', () => {
-    // mock library
-    return {
-        useSession() {
-            return [null, false]
-        }
-    }
+jest.mock("next-auth/react", () => {
+  // mock library
+  return {
+    useSession: () => ({
+      data: null,
+    }),
+  };
 });
 
-describe('Header component', () => {
-    it('should renders correctly', () => {
-        const {getByText} = render(
-            <Header/>
-        )
+describe("Header component", () => {
+  it("should renders correctly", () => {
+    const { getByText } = render(<Header />);
 
-        expect(getByText('Home')).toBeInTheDocument();
-    });
+    expect(getByText("Home")).toBeInTheDocument();
+  });
 });
